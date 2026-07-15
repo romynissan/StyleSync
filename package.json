@@ -1,0 +1,49 @@
+{
+  "name": "stylesync",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "db:setup": "prisma migrate deploy && prisma db seed",
+    "ai:run": "python3 ai-engine/main.py",
+    "ai:install": "pip3 install -r ai-engine/requirements.txt",
+    "postinstall": "prisma generate"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@tanstack/react-query": "^5.101.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.24.0",
+    "next": "^15.3.3",
+    "postcss": "^8.5.16",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^3.9.2",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "eslint": "^9.27.0",
+    "eslint-config-next": "^15.3.3",
+    "prisma": "^6.19.3",
+    "tsx": "^4.23.0",
+    "typescript": "^5.8.3"
+  }
+}

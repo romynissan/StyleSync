@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Design tokens — luxury retail operations platform
+   80% warm neutrals · 20% dusty blush accent
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* Surfaces */
+  --color-canvas: #faf8f5;
+  --color-surface: #f1e8e0;
+  --color-surface-elevated: #f7f1ec;
+  --color-surface-muted: #ebe3db;
+  --color-border: #ddd5ce;
+  --color-border-subtle: #e8e0d8;
+
+  /* Ink */
+  --color-ink: #2f2f2f;
+  --color-ink-muted: #6b6b6b;
+  --color-ink-faint: #9a9590;
+
+  /* Accent — dusty blush (intentional use only) */
+  --color-accent: #e8b7c8;
+  --color-accent-hover: #dca6ba;
+  --color-accent-muted: #f5e4eb;
+  --color-accent-foreground: #2f2f2f;
+
+  /* Legacy aliases kept so existing utilities map cleanly */
+  --color-brand-50: #faf5f7;
+  --color-brand-100: #f5e4eb;
+  --color-brand-200: #efd0dc;
+  --color-brand-300: #e8b7c8;
+  --color-brand-400: #dca6ba;
+  --color-brand-500: #e8b7c8;
+  --color-brand-600: #dca6ba;
+  --color-brand-700: #c789a0;
+  --color-brand-800: #a86d84;
+  --color-brand-900: #7a4f60;
+
+  --color-surface-base: #faf8f5;
+  --color-surface-raised: #f1e8e0;
+  --color-surface-sunken: #ebe3db;
+  --color-surface-overlay: #f7f1ec;
+
+  /* Semantic — muted, sophisticated */
+  --color-status-success: #6f9d77;
+  --color-status-success-muted: #e4efe6;
+  --color-status-warning: #d6a65a;
+  --color-status-warning-muted: #f5ebd8;
+  --color-status-danger: #c76a6a;
+  --color-status-danger-muted: #f3e0e0;
+  --color-status-info: #8a847c;
+  --color-status-info-muted: #ebe3db;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  --text-display: 1.75rem;
+  --text-display--line-height: 2.25rem;
+  --text-display--font-weight: 600;
+
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.5rem;
+  --text-title--font-weight: 600;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.4rem;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.1rem;
+
+  --text-kpi: 1.625rem;
+  --text-kpi--line-height: 2rem;
+  --text-kpi--font-weight: 600;
+
+  /* Radius & elevation */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.125rem;
+
+  --shadow-card: 0 1px 2px 0 rgb(47 47 47 / 0.04),
+    0 4px 12px -4px rgb(47 47 47 / 0.06);
+  --shadow-elevated: 0 4px 16px -4px rgb(47 47 47 / 0.1),
+    0 2px 6px -2px rgb(47 47 47 / 0.05);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-ink antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-muted);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  .text-display {
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    font-weight: var(--text-display--font-weight);
+    letter-spacing: -0.03em;
+  }
+
+  .text-title {
+    font-size: var(--text-title);
+    line-height: var(--text-title--line-height);
+    font-weight: var(--text-title--font-weight);
+    letter-spacing: -0.02em;
+  }
+
+  .text-body {
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+  }
+
+  .text-caption {
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+  }
+
+  .text-kpi {
+    font-size: var(--text-kpi);
+    line-height: var(--text-kpi--line-height);
+    font-weight: var(--text-kpi--font-weight);
+    letter-spacing: -0.03em;
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .transition-soft {
+    transition-property: color, background-color, border-color, box-shadow,
+      transform, opacity;
+    transition-duration: 180ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
