@@ -46,8 +46,6 @@ SKU-level inventory position with stockout risk and reorder recommendations.
 
 ## Architecture
 
-![StyleSync architecture diagram](docs/architecture.svg)
-
 ```mermaid
 flowchart LR
   UI["Frontend<br/>Next.js · React Query · Recharts"]
