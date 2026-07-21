@@ -2,33 +2,11 @@
 
 **Connecting Fashion Trends to Smarter Inventory Decisions**
 
-StyleSync is an enterprise-grade, AI-powered inventory forecasting platform for apparel and beauty retail. Built as a portfolio project that mirrors the tools used by merchandise planners and inventory analysts at companies like lululemon, Aritzia, Nike, and Estée Lauder.
+StyleSync is an enterprise-grade, AI-powered inventory forecasting platform for apparel and beauty retail. Built as a portfolio project that mirrors the tools used by merchandise planners and inventory analysts.
 
 > Soft luxury UI · layered architecture · PostgreSQL · Python demand forecasting · Next.js App Router
 
 ---
-
-## Live Demo
-
-> **Deployed demo:** *coming soon — deploy with the Vercel steps below.*  
-> After you deploy, replace this line with your production URL.
-
-**Local demo (2 minutes):**
-
-```bash
-git clone https://github.com/romynissan/StyleSync.git
-cd StyleSync
-npm install
-cp .env.example .env   # add your PostgreSQL DATABASE_URL
-npm run db:setup
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
----
-
-## Screenshots
 
 ### Dashboard overview
 
