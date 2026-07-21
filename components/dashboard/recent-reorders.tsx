@@ -57,9 +57,15 @@ export function RecentReorders() {
               className="rounded-xl border border-border-subtle bg-canvas/70 px-3.5 py-3 transition-soft hover:bg-canvas"
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="text-body font-medium text-ink">
-                  {reorder.product.sku}
-                </p>
+                <div>
+                  <p className="text-body font-semibold text-ink">
+                    {reorder.product.name}
+                  </p>
+                  <p className="text-caption text-ink-muted">
+                    SKU: {reorder.product.sku}
+                  </p>
+                </div>
+              
                 <div className="flex gap-1.5">
                   <Badge
                     variant={priorityVariant[reorder.priority] ?? "default"}
