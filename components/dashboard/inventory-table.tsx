@@ -65,10 +65,14 @@ export function InventoryTable() {
                   key={row.id}
                   className="border-b border-border-subtle/70 transition-soft last:border-0 hover:bg-canvas/50"
                 >
-                  <td className="px-6 py-3.5">
-                    <div className="font-medium text-ink">{row.product.sku}</div>
-                    <div className="text-caption text-ink-muted">
-                      {row.product.name}
+                  <td className="px-6 py-4">
+                    <div className="space-y-1">
+                      <p className="text-base font-semibold text-ink">
+                        {row.product.name}
+                      </p>
+                      <p className="text-xs uppercase tracking-wide text-ink-muted">
+                        SKU: {row.product.sku}
+                      </p>
                     </div>
                   </td>
                   <td className="px-6 py-3.5 text-ink-muted">
