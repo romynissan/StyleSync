@@ -96,53 +96,6 @@ StyleSync/
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- PostgreSQL (Docker, Supabase, or Railway)
-- Python 3.10+ (optional, for AI sync)
-
-### 1. Install
-
-```bash
-npm install
-```
-
-### 2. Environment
-
-```bash
-cp .env.example .env
-```
-
-Set `DATABASE_URL` to your Postgres connection string.  
-If the password contains `@`, encode it as `%40`.
-
-### 3. Migrate & seed
-
-```bash
-npm run db:setup
-```
-
-Seeds 12 apparel/beauty SKUs, 3 warehouses, trend history, forecasts, and sample reorders.
-
-### 4. Run
-
-```bash
-npm run dev
-```
-
-### 5. (Optional) AI pipeline
-
-```bash
-npm run ai:install
-npm run ai:run
-# or from the UI: Sync AI predictions
-```
-
----
-
 ## API
 
 | Method | Endpoint | Description |
@@ -155,28 +108,6 @@ npm run ai:run
 | `GET` | `/api/alerts/stockouts` | Stockout risk alerts |
 | `GET` | `/api/reorders` | Recent reorder recommendations |
 | `POST` | `/api/predictions/sync` | Run AI engine and upsert forecasts |
-
----
-
-## Deploy to Vercel
-
-1. Push this repo to GitHub (already on [`romynissan/StyleSync`](https://github.com/romynissan/StyleSync)).
-2. Import the project in [Vercel](https://vercel.com/new).
-3. Add environment variable: `DATABASE_URL` (Supabase connection string with `sslmode=require`).
-4. Deploy. Build command: `prisma generate && next build` (already in `npm run build`).
-5. Paste your Vercel URL into the **Live Demo** section above.
-
-> Note: `POST /api/predictions/sync` requires Python on the host. On Vercel, use the seeded forecast data for the public demo, or run the AI pipeline locally / in a separate worker.
-
----
-
-## Interview Talking Points
-
-- **Layered architecture** — UI → API → services → Prisma → Postgres; easy to test and evolve
-- **Stockout risk model** — safety stock × lead-time demand, not hard-coded flags
-- **AI isolation** — Python ML stays out of the Next.js bundle; JSON contract + sync endpoint
-- **Production hygiene** — typed DTO contracts, React Query caching, API `Cache-Control`, Prisma singleton
-- **UX** — internal luxury-retail ops aesthetic (cream / taupe / blush accents), not e-commerce chrome
 
 ---
 
