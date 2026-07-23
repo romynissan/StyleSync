@@ -18,6 +18,10 @@ KPI cards, demand forecast, and trend heatmap for merchandising decisions.
 
 ![StyleSync inventory and stockout alerts](docs/screenshots/inventory-alerts.png)
 
+![StyleSync inventory and stockout alerts](docs/screenshots/warehouses.png)
+
+![StyleSync inventory and stockout alerts](docs/screenshots/reorders.png)
+
 SKU-level inventory position with stockout risk and reorder recommendations.
 
 ---
