@@ -79,7 +79,7 @@ export function DemandForecastChart() {
                 <Line
                   key={forecast.product.id}
                   type="monotone"
-                  dataKey={forecast.product.sku}
+                  dataKey={forecast.product.name}
                   stroke={
                     CHART_COLORS.series[index % CHART_COLORS.series.length]
                   }
