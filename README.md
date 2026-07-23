@@ -14,7 +14,7 @@ StyleSync is an enterprise-grade, AI-powered inventory forecasting platform for 
 
 KPI cards, demand forecast, and trend heatmap for merchandising decisions.
 
-### Inventory & alerts
+### Inventory, Warehouses & Reorders Pages
 
 ![StyleSync inventory and stockout alerts](docs/screenshots/inventory-alerts.png)
 
