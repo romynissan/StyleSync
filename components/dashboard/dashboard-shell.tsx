@@ -13,7 +13,7 @@ interface DashboardShellProps {
 
 export function DashboardShell({
   children,
-  title = "Overview",
+  title = "StyleSync",
   subtitle = "Connecting Fashion Trends to Smarter Inventory Decisions",
   actions,
 }: DashboardShellProps) {
