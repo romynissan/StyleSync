@@ -54,14 +54,12 @@ export function WarehouseStatistics() {
                   className="border-b border-border-subtle/70 transition-soft last:border-0 hover:bg-canvas/50"
                 >
                   <td className="px-6 py-3.5">
-                    <td className="px-6 py-3.5">
-                      <div className="font-semibold text-ink">
-                        {wh.city}, {wh.region}
-                      </div>
-                      <div className="text-caption text-ink-muted">
-                        Warehouse: {wh.code}
-                      </div>
-                    </td>
+                    <div className="font-semibold text-ink">
+                      {wh.city}, {wh.region}
+                    </div>
+                    <div className="text-caption text-ink-muted">
+                      Warehouse: {wh.code}
+                    </div>
                   </td>
                   <td className="tabular-nums px-6 py-3.5 text-right text-ink">
                     {formatNumber(wh.totalSkus)}
