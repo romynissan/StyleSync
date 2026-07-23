@@ -8,8 +8,8 @@
   <!-- Frontend -->
   <rect x="40" y="96" width="180" height="100" rx="16" fill="#F1E8E0" stroke="#DDD5CE"/>
   <text x="130" y="136" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#2F2F2F">Frontend</text>
-  <text x="130" y="158" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Next.js · React</text>
-  <text x="130" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">React Query · Recharts</text>
+  <text x="130" y="158" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Next.js ï¿½ React</text>
+  <text x="130" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">React Query ï¿½ Recharts</text>
 
   <!-- Arrow -->
   <path d="M220 146 H250" stroke="#2F2F2F" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -26,20 +26,20 @@
   <rect x="460" y="96" width="180" height="100" rx="16" fill="#F1E8E0" stroke="#DDD5CE"/>
   <text x="550" y="136" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#2F2F2F">Business Logic</text>
   <text x="550" y="158" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">lib/services/*</text>
-  <text x="550" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Stockout · Forecast · KPI</text>
+  <text x="550" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Stockout ï¿½ Forecast ï¿½ KPI</text>
 
   <path d="M640 146 H670" stroke="#2F2F2F" stroke-width="1.5" marker-end="url(#arrow)"/>
 
   <!-- DB -->
   <rect x="670" y="96" width="210" height="100" rx="16" fill="#F1E8E0" stroke="#DDD5CE"/>
   <text x="775" y="136" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#2F2F2F">PostgreSQL</text>
-  <text x="775" y="158" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Prisma ORM · Supabase</text>
-  <text x="775" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Products · Inventory · Predictions</text>
+  <text x="775" y="158" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Prisma ORM ï¿½ Supabase</text>
+  <text x="775" y="176" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Products ï¿½ Inventory ï¿½ Predictions</text>
 
   <!-- AI box -->
   <rect x="250" y="250" width="420" height="110" rx="16" fill="#F5E4EB" stroke="#E8B7C8"/>
   <text x="460" y="290" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#2F2F2F">AI Prediction Engine (Python)</text>
-  <text x="460" y="314" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Trend scrape ’ Clean ’ Score ’ Ridge forecast ’ JSON export</text>
+  <text x="460" y="314" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Trend scrape ï¿½ Clean ï¿½ Score ï¿½ Ridge forecast ï¿½ JSON export</text>
   <text x="460" y="336" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="12" fill="#6B6B6B">Synced into DB via POST /api/predictions/sync</text>
 
   <path d="M460 250 V206" stroke="#E8B7C8" stroke-width="1.75" marker-end="url(#arrowAccent)"/>

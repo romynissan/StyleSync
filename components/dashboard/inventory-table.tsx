@@ -23,8 +23,13 @@ const riskVariant: Record<
   critical: "danger",
 };
 
-export function InventoryTable() {
-  const { data, isLoading, isError } = useInventory();
+interface InventoryTableProps {
+  page?: number;
+  pageSize?: number;
+}
+
+export function InventoryTable({ page = 1, pageSize = 8 }: InventoryTableProps) {
+  const { data, isLoading, isError } = useInventory(page, pageSize);
 
   return (
     <Card>

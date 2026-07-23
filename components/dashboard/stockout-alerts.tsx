@@ -24,8 +24,12 @@ const riskVariant: Record<
   none: "default",
 };
 
-export function StockoutAlerts() {
-  const { data, isLoading, isError } = useStockoutAlerts();
+interface StockoutAlertsProps {
+  limit?: number;
+}
+
+export function StockoutAlerts({ limit = 8 }: StockoutAlertsProps) {
+  const { data, isLoading, isError } = useStockoutAlerts(limit);
 
   return (
     <Card className="h-full">

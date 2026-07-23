@@ -29,8 +29,12 @@ const priorityVariant: Record<string, "danger" | "warning" | "default"> = {
   LOW: "default",
 };
 
-export function RecentReorders() {
-  const { data, isLoading, isError } = useReorders();
+interface RecentReordersProps {
+  limit?: number;
+}
+
+export function RecentReorders({ limit = 6 }: RecentReordersProps) {
+  const { data, isLoading, isError } = useReorders(limit);
 
   return (
     <Card className="h-full">

@@ -14,13 +14,13 @@ import { useQuery } from "@tanstack/react-query";
 export const dashboardKeys = {
   all: ["dashboard"] as const,
   summary: () => [...dashboardKeys.all, "summary"] as const,
-  inventory: (page: number) =>
-    [...dashboardKeys.all, "inventory", page] as const,
+  inventory: (page: number, pageSize: number) =>
+    [...dashboardKeys.all, "inventory", page, pageSize] as const,
   warehouses: () => [...dashboardKeys.all, "warehouses"] as const,
   trends: () => [...dashboardKeys.all, "trends"] as const,
   predictions: () => [...dashboardKeys.all, "predictions"] as const,
-  alerts: () => [...dashboardKeys.all, "alerts"] as const,
-  reorders: () => [...dashboardKeys.all, "reorders"] as const,
+  alerts: (limit: number) => [...dashboardKeys.all, "alerts", limit] as const,
+  reorders: (limit: number) => [...dashboardKeys.all, "reorders", limit] as const,
 };
 
 export function useDashboardSummary() {
@@ -30,10 +30,10 @@ export function useDashboardSummary() {
   });
 }
 
-export function useInventory(page = 1) {
+export function useInventory(page = 1, pageSize = 8) {
   return useQuery({
-    queryKey: dashboardKeys.inventory(page),
-    queryFn: () => getInventory({ page, pageSize: 8 }),
+    queryKey: dashboardKeys.inventory(page, pageSize),
+    queryFn: () => getInventory({ page, pageSize }),
   });
 }
 
@@ -58,16 +58,16 @@ export function usePredictions() {
   });
 }
 
-export function useStockoutAlerts() {
+export function useStockoutAlerts(limit = 8) {
   return useQuery({
-    queryKey: dashboardKeys.alerts(),
-    queryFn: () => getStockoutAlerts({ limit: 8 }),
+    queryKey: dashboardKeys.alerts(limit),
+    queryFn: () => getStockoutAlerts({ limit }),
   });
 }
 
-export function useReorders() {
+export function useReorders(limit = 6) {
   return useQuery({
-    queryKey: dashboardKeys.reorders(),
-    queryFn: () => getReorders({ limit: 6 }),
+    queryKey: dashboardKeys.reorders(limit),
+    queryFn: () => getReorders({ limit }),
   });
 }

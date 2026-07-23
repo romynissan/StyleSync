@@ -1,27 +1,18 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import {
-  AlertTriangle,
-  BarChart3,
-  LayoutDashboard,
-  Package,
-  RefreshCw,
-  Settings,
-  Sparkles,
-  Warehouse,
-} from "lucide-react";
-
-const navItems = [
-  { label: "Overview", icon: LayoutDashboard, active: true },
-  { label: "Inventory", icon: Package, active: false },
-  { label: "Forecasts", icon: BarChart3, active: false },
-  { label: "Alerts", icon: AlertTriangle, active: false },
-  { label: "Warehouses", icon: Warehouse, active: false },
-  { label: "Reorders", icon: RefreshCw, active: false },
-] as const;
+  isNavItemActive,
+  settingsNavItem,
+  workspaceNavItems,
+} from "@/lib/navigation";
+import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Sidebar() {
+  const pathname = usePathname();
+
   return (
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-border bg-surface-elevated lg:flex">
       <div className="flex items-start gap-3 border-b border-border-subtle px-5 py-4">
@@ -42,34 +33,50 @@ export function Sidebar() {
         <p className="mb-2 px-3 text-caption font-medium uppercase tracking-[0.08em] text-ink-faint">
           Workspace
         </p>
-        {navItems.map((item) => {
+        {workspaceNavItems.map((item) => {
           const Icon = item.icon;
+          const active = isNavItemActive(pathname, item.href);
+
           return (
-            <button
-              key={item.label}
-              type="button"
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
               className={cn(
                 "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-body transition-soft",
-                item.active
+                active
                   ? "bg-accent text-accent-foreground font-medium shadow-card"
                   : "text-ink-muted hover:bg-surface-muted hover:text-ink",
               )}
             >
               <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />
               {item.label}
-            </button>
+            </Link>
           );
         })}
       </nav>
 
       <div className="border-t border-border-subtle p-3">
-        <button
-          type="button"
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-body text-ink-muted transition-soft hover:bg-surface-muted hover:text-ink"
-        >
-          <Settings className="h-4 w-4" strokeWidth={1.75} />
-          Settings
-        </button>
+        {(() => {
+          const Icon = settingsNavItem.icon;
+          const active = isNavItemActive(pathname, settingsNavItem.href);
+
+          return (
+            <Link
+              href={settingsNavItem.href}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-body transition-soft",
+                active
+                  ? "bg-accent text-accent-foreground font-medium shadow-card"
+                  : "text-ink-muted hover:bg-surface-muted hover:text-ink",
+              )}
+            >
+              <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+              {settingsNavItem.label}
+            </Link>
+          );
+        })()}
       </div>
     </aside>
   );
