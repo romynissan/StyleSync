@@ -1,5 +1,6 @@
 # StyleSync
 **Live Demo**
+
 Try the deployed application:
 https://style-sync-nu-one.vercel.app/
 
