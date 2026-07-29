@@ -30,9 +30,9 @@ export function DemandForecastChart() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Demand forecast</CardTitle>
+        <CardTitle>Demand Forecast</CardTitle>
         <CardDescription>
-          30-day predicted units by product SKU with confidence range
+          AI predicted demand over the next 30 days with confidence range
         </CardDescription>
       </CardHeader>
 
@@ -90,18 +90,8 @@ export function DemandForecastChart() {
                   backgroundColor: "#F7F1EC",
                   border: `1px solid ${CHART_COLORS.border}`,
                   borderRadius: 12,
-                  boxShadow:
-                    "0 8px 24px -8px rgba(47,47,47,0.15)",
                   fontSize: 12,
-                  color: CHART_COLORS.ink,
                 }}
-                labelFormatter={(value) =>
-                  new Date(value).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })
-                }
               />
 
               <Legend
@@ -109,28 +99,26 @@ export function DemandForecastChart() {
                 height={36}
                 wrapperStyle={{
                   fontSize: 12,
-                  color: CHART_COLORS.muted,
                 }}
               />
 
-              {/* Confidence interval shading */}
               {(data ?? []).map((forecast, index) => (
                 <Area
                   key={`${forecast.product.id}-confidence`}
                   type="monotone"
-                  dataKey={`${forecast.product.sku}_upper`}
+                  dataKey={`${forecast.product.sku}_confidence`}
                   stroke="none"
                   fill={
                     CHART_COLORS.series[
                       index % CHART_COLORS.series.length
                     ]
                   }
-                  fillOpacity={0.08}
+                  fillOpacity={0.12}
+                  name="Confidence range"
                   legendType="none"
                 />
               ))}
 
-              {/* Forecast lines */}
               {(data ?? []).map((forecast, index) => (
                 <Line
                   key={forecast.product.id}
@@ -146,9 +134,8 @@ export function DemandForecastChart() {
                   dot={false}
                   activeDot={{
                     r: 5,
-                    strokeWidth: 0,
                   }}
-                  animationDuration={800}
+                  animationDuration={900}
                 />
               ))}
             </LineChart>
@@ -159,6 +146,7 @@ export function DemandForecastChart() {
   );
 }
 
+
 function buildChartData(forecasts: ProductForecast[]) {
   if (!forecasts || forecasts.length === 0) return [];
 
@@ -166,28 +154,26 @@ function buildChartData(forecasts: ProductForecast[]) {
 
   for (const forecast of forecasts) {
     for (const point of forecast.series) {
-      const row = dateMap.get(point.date) ?? {
-        date: point.date,
-      };
-
-      const uncertainty =
-        point.predictedDemand * (1 - point.confidence) * 3;
+      const row =
+        dateMap.get(point.date) ?? {
+          date: point.date,
+        };
 
       row[forecast.product.sku] = point.predictedDemand;
 
-      row[`${forecast.product.sku}_lower`] = Math.max(
-        0,
-        point.predictedDemand - uncertainty,
-      );
+      const confidence =
+        point.predictedDemand *
+        (1 - point.confidence) *
+        3;
 
-      row[`${forecast.product.sku}_upper`] =
-        point.predictedDemand + uncertainty;
+      row[`${forecast.product.sku}_confidence`] =
+        point.predictedDemand + confidence;
 
       dateMap.set(point.date, row);
     }
   }
 
   return [...dateMap.values()].sort((a, b) =>
-    String(a.date).localeCompare(String(b.date)),
+    String(a.date).localeCompare(String(b.date))
   );
 }
