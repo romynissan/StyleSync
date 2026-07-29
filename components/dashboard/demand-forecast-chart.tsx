@@ -32,7 +32,7 @@ export function DemandForecastChart() {
       <CardHeader>
         <CardTitle>Demand forecast</CardTitle>
         <CardDescription>
-          30-day predicted units by product SKU
+          30-day predicted units by product SKU with confidence range
         </CardDescription>
       </CardHeader>
 
@@ -113,6 +113,24 @@ export function DemandForecastChart() {
                 }}
               />
 
+              {/* Confidence interval shading */}
+              {(data ?? []).map((forecast, index) => (
+                <Area
+                  key={`${forecast.product.id}-confidence`}
+                  type="monotone"
+                  dataKey={`${forecast.product.sku}_upper`}
+                  stroke="none"
+                  fill={
+                    CHART_COLORS.series[
+                      index % CHART_COLORS.series.length
+                    ]
+                  }
+                  fillOpacity={0.08}
+                  legendType="none"
+                />
+              ))}
+
+              {/* Forecast lines */}
               {(data ?? []).map((forecast, index) => (
                 <Line
                   key={forecast.product.id}
@@ -152,7 +170,18 @@ function buildChartData(forecasts: ProductForecast[]) {
         date: point.date,
       };
 
+      const uncertainty =
+        point.predictedDemand * (1 - point.confidence) * 3;
+
       row[forecast.product.sku] = point.predictedDemand;
+
+      row[`${forecast.product.sku}_lower`] = Math.max(
+        0,
+        point.predictedDemand - uncertainty,
+      );
+
+      row[`${forecast.product.sku}_upper`] =
+        point.predictedDemand + uncertainty;
 
       dateMap.set(point.date, row);
     }
