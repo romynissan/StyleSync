@@ -80,12 +80,10 @@ export function DemandForecastChart() {
                   key={forecast.product.id}
                   type="monotone"
                   dataKey={forecast.product.sku}
-                  stroke={
-                    CHART_COLORS.series[index % CHART_COLORS.series.length]
-                  }
-                  strokeWidth={index === 0 ? 2.5 : 1.75}
-                  dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
+                  name={forecast.product.name}
+                  stroke={CHART_COLORS.series[index % CHART_COLORS.series.length]}
+                  strokeWidth={2}
+                  dot={{ r: 2 }}
                 />
               ))}
             </LineChart>
