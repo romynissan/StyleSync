@@ -12,6 +12,7 @@ import { CHART_COLORS, chartAxisTick } from "@/lib/chart-theme";
 import { usePredictions } from "@/lib/hooks/use-dashboard";
 import type { ProductForecast } from "@/types/domain";
 import {
+  Area,
   CartesianGrid,
   Legend,
   Line,
