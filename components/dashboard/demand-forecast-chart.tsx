@@ -30,8 +30,11 @@ export function DemandForecastChart() {
     <Card className="h-full">
       <CardHeader>
         <CardTitle>Demand forecast</CardTitle>
-        <CardDescription>30-day predicted units by SKU</CardDescription>
+        <CardDescription>
+          30-day predicted units by product SKU
+        </CardDescription>
       </CardHeader>
+
       <CardContent className="h-80">
         {isLoading ? (
           <Skeleton className="h-full w-full" />
@@ -40,50 +43,93 @@ export function DemandForecastChart() {
             Failed to load predictions.
           </p>
         ) : chartData.length === 0 ? (
-          <p className="text-body text-ink-muted">No forecast data available.</p>
+          <p className="text-body text-ink-muted">
+            No forecast data available.
+          </p>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
+            <LineChart
+              data={chartData}
+              margin={{
+                top: 10,
+                right: 20,
+                left: -10,
+                bottom: 0,
+              }}
+            >
               <CartesianGrid
-                strokeDasharray="3 3"
+                strokeDasharray="4 4"
                 stroke={CHART_COLORS.grid}
                 vertical={false}
               />
+
               <XAxis
                 dataKey="date"
                 tick={chartAxisTick}
-                tickFormatter={(v: string) => v.slice(5)}
+                tickFormatter={(value: string) =>
+                  new Date(value).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })
+                }
                 axisLine={{ stroke: CHART_COLORS.border }}
                 tickLine={false}
               />
+
               <YAxis
                 tick={chartAxisTick}
-                width={36}
+                width={40}
                 axisLine={false}
                 tickLine={false}
+                allowDecimals={false}
               />
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#F7F1EC",
                   border: `1px solid ${CHART_COLORS.border}`,
                   borderRadius: 12,
-                  boxShadow: "0 4px 16px -4px rgb(47 47 47 / 0.1)",
+                  boxShadow:
+                    "0 8px 24px -8px rgba(47,47,47,0.15)",
                   fontSize: 12,
                   color: CHART_COLORS.ink,
                 }}
+                labelFormatter={(value) =>
+                  new Date(value).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                }
               />
+
               <Legend
-                wrapperStyle={{ fontSize: 12, color: CHART_COLORS.muted }}
+                verticalAlign="top"
+                height={36}
+                wrapperStyle={{
+                  fontSize: 12,
+                  color: CHART_COLORS.muted,
+                }}
               />
+
               {(data ?? []).map((forecast, index) => (
                 <Line
                   key={forecast.product.id}
                   type="monotone"
                   dataKey={forecast.product.sku}
                   name={forecast.product.name}
-                  stroke={CHART_COLORS.series[index % CHART_COLORS.series.length]}
-                  strokeWidth={2}
-                  dot={{ r: 2 }}
+                  stroke={
+                    CHART_COLORS.series[
+                      index % CHART_COLORS.series.length
+                    ]
+                  }
+                  strokeWidth={index === 0 ? 3 : 2}
+                  dot={false}
+                  activeDot={{
+                    r: 5,
+                    strokeWidth: 0,
+                  }}
+                  animationDuration={800}
                 />
               ))}
             </LineChart>
@@ -101,8 +147,12 @@ function buildChartData(forecasts: ProductForecast[]) {
 
   for (const forecast of forecasts) {
     for (const point of forecast.series) {
-      const row = dateMap.get(point.date) ?? { date: point.date };
+      const row = dateMap.get(point.date) ?? {
+        date: point.date,
+      };
+
       row[forecast.product.sku] = point.predictedDemand;
+
       dateMap.set(point.date, row);
     }
   }
