@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { revalidateTag } from "next/cache";
-import { runAiPipeline } from "@/lib/ai/runner";
 import { prisma } from "@/lib/prisma";
 
 interface AiPredictionExport {
@@ -29,7 +28,6 @@ export async function syncPredictionsFromAi(): Promise<{
   productsUpdated: number;
   predictionsUpserted: number;
 }> {
-  await runAiPipeline();
 
   const raw = await readFile(PREDICTIONS_PATH, "utf-8");
   const payload = JSON.parse(raw) as AiPredictionExport;
