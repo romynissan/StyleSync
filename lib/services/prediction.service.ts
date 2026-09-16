@@ -15,8 +15,14 @@ export async function getDemandForecasts(
   const horizonDays = Math.min(30, Math.max(7, query.horizonDays ?? 30));
   const limit = Math.min(50, Math.max(1, query.limit ?? 10));
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const now = new Date();
+  const today = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate()
+    )
+  );
   const end = new Date(today);
   end.setDate(end.getDate() + horizonDays);
 
