@@ -46,8 +46,12 @@ export async function syncPredictionsFromAi(): Promise<{
 
     productsUpdated += 1;
 
-    for (const point of item.series) {
-      const forecastDate = new Date(point.date);
+    for (let i = 0; i < item.series.length; i++) {
+      const point = item.series[i];
+    
+      const forecastDate = new Date();
+      forecastDate.setHours(0, 0, 0, 0);
+      forecastDate.setDate(forecastDate.getDate() + i);
       await prisma.prediction.upsert({
         where: {
           productId_forecastDate: {
