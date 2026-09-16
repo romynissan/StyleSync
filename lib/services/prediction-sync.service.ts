@@ -28,18 +28,19 @@ export async function syncPredictionsFromAi(): Promise<{
   productsUpdated: number;
   predictionsUpserted: number;
 }> {
-
   const raw = await readFile(PREDICTIONS_PATH, "utf-8");
   const payload = JSON.parse(raw) as AiPredictionExport;
 
   const products = await prisma.product.findMany({
     select: { id: true, sku: true },
   });
+
   const skuToId = new Map(products.map((p) => [p.sku, p.id]));
 
   let productsUpdated = 0;
   let predictionsUpserted = 0;
 
+  // Refresh prediction data
   for (const item of payload.products) {
     const productId = skuToId.get(item.sku);
     if (!productId) continue;
@@ -54,9 +55,10 @@ export async function syncPredictionsFromAi(): Promise<{
         Date.UTC(
           now.getUTCFullYear(),
           now.getUTCMonth(),
-          now.getUTCDate() + i
-        )
+          now.getUTCDate() + i,
+        ),
       );
+
       await prisma.prediction.upsert({
         where: {
           productId_forecastDate: {
@@ -78,7 +80,41 @@ export async function syncPredictionsFromAi(): Promise<{
           generatedAt: new Date(),
         },
       });
+
       predictionsUpserted += 1;
+    }
+  }
+
+  // Refresh trend data dates so existing demo trend scores
+  // fall within the dashboard's current 8-week window.
+  const trendRows = await prisma.trendData.findMany({
+    orderBy: { recordedAt: "asc" },
+  });
+
+  if (trendRows.length > 0) {
+    const oldestDate = trendRows[0].recordedAt;
+    const now = new Date();
+
+    for (const trend of trendRows) {
+      const daysFromOldest = Math.floor(
+        (trend.recordedAt.getTime() - oldestDate.getTime()) /
+          (1000 * 60 * 60 * 24),
+      );
+
+      const newDate = new Date(
+        Date.UTC(
+          now.getUTCFullYear(),
+          now.getUTCMonth(),
+          now.getUTCDate() - 56 + daysFromOldest,
+        ),
+      );
+
+      await prisma.trendData.update({
+        where: { id: trend.id },
+        data: {
+          recordedAt: newDate,
+        },
+      });
     }
   }
 
@@ -86,5 +122,8 @@ export async function syncPredictionsFromAi(): Promise<{
   revalidateTag("predictions");
   revalidateTag("inventory");
 
-  return { productsUpdated, predictionsUpserted };
+  return {
+    productsUpdated,
+    predictionsUpserted,
+  };
 }
