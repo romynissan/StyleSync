@@ -11,23 +11,50 @@ export async function getTrendHeatmap(
   query: TrendQuery = {},
 ): Promise<TrendHeatmapCell[]> {
   const weeks = Math.min(12, Math.max(4, query.weeks ?? 8));
-  const since = new Date();
-  since.setDate(since.getDate() - weeks * 7);
+
+  // Find the most recent trend record in the database.
+  const latestTrend = await prisma.trendData.findFirst({
+    orderBy: { recordedAt: "desc" },
+    select: { recordedAt: true },
+  });
+
+  if (!latestTrend) {
+    return [];
+  }
+
+  // Show the latest available weeks of trend data rather than
+  // relying on today's date.
+  const since = new Date(latestTrend.recordedAt);
+  since.setDate(since.getDate() - (weeks - 1) * 7);
 
   const trendRows = await prisma.trendData.findMany({
     where: {
-      recordedAt: { gte: since },
+      recordedAt: {
+        gte: since,
+        lte: latestTrend.recordedAt,
+      },
       ...(query.category
         ? { product: { category: query.category } }
         : {}),
     },
-    include: { product: { select: { category: true } } },
+    include: {
+      product: {
+        select: {
+          category: true,
+        },
+      },
+    },
     orderBy: { recordedAt: "asc" },
   });
 
   const buckets = new Map<
     string,
-    { total: number; count: number; category: string; weekStart: string }
+    {
+      total: number;
+      count: number;
+      category: string;
+      weekStart: string;
+    }
   >();
 
   for (const row of trendRows) {
@@ -35,6 +62,7 @@ export async function getTrendHeatmap(
     const key = `${row.product.category}|${week}`;
 
     const existing = buckets.get(key);
+
     if (existing) {
       existing.total += row.trendScore;
       existing.count += 1;
@@ -52,7 +80,8 @@ export async function getTrendHeatmap(
     .map((b) => ({
       category: b.category,
       weekStart: b.weekStart,
-      avgTrendScore: Math.round((b.total / b.count) * 100) / 100,
+      avgTrendScore:
+        Math.round((b.total / b.count) * 100) / 100,
       sampleSize: b.count,
     }))
     .sort((a, b) =>
@@ -63,17 +92,30 @@ export async function getTrendHeatmap(
 }
 
 export async function getAverageTrendScore(): Promise<number> {
+  // Use the latest available 30 days of trend data.
+  const latestTrend = await prisma.trendData.findFirst({
+    orderBy: { recordedAt: "desc" },
+    select: { recordedAt: true },
+  });
+
+  if (!latestTrend) {
+    return 0;
+  }
+
+  const since = new Date(latestTrend.recordedAt);
+  since.setDate(since.getDate() - 30);
+
   const result = await prisma.trendData.aggregate({
-    _avg: { trendScore: true },
+    _avg: {
+      trendScore: true,
+    },
     where: {
-      recordedAt: { gte: daysAgo(30) },
+      recordedAt: {
+        gte: since,
+        lte: latestTrend.recordedAt,
+      },
     },
   });
-  return Math.round((result._avg.trendScore ?? 0) * 100) / 100;
-}
 
-function daysAgo(n: number): Date {
-  const d = new Date();
-  d.setDate(d.getDate() - n);
-  return d;
+  return Math.round((result._avg.trendScore ?? 0) * 100) / 100;
 }
